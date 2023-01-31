@@ -1,0 +1,44 @@
+#Make sure you get the latest database dump from here:
+#https://github.com/blizzless/blizzless-diiis/raw/test-stable/db/initdb/dump.sql
+#Place it in the "initdb" volume root for postgres
+#
+#Find a sample config.ini for d3s here:
+#https://github.com/blizzless/blizzless-diiis/raw/test-stable/configs/config.ini
+#Mounting this is optional
+---
+version: "3.9"
+
+services:
+  postgres:
+    container_name: d3s_db
+    image: postgres:14.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+       - pgdata:/var/lib/postgresql/data
+       - ./initdb:/docker-entrypoint-initdb.d
+    networks:
+      - d3s
+  d3s:
+    container_name: d3s_main
+    build:
+      context: https://github.com/henryford/docker-diiis
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 1119:1119
+      - 2001:2001
+      - 37798:37798
+    #volumes:
+    #  - ./config.ini:/diiis/config.ini
+    networks:
+      - d3s_net
+volumes:
+  pgdata:
+networks:
+  d3s_net:
+    driver: bridge
