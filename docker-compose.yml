@@ -21,7 +21,7 @@ services:
        - pgdata:/var/lib/postgresql/data
        - ./initdb:/docker-entrypoint-initdb.d
     networks:
-      - d3s
+      - d3s_net
   d3s:
     container_name: d3s_main
     build:
