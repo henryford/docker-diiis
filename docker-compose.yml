@@ -28,11 +28,14 @@ services:
       context: https://github.com/henryford/docker-diiis
       dockerfile: Dockerfile
     restart: unless-stopped
+    stdin_open: true
+    tty: true
     ports:
-      - 80:80
+      - 9800:9800
       - 1119:1119
-      - 2001:2001
-      - 37798:37798
+      - 80:80
+      - 9100:9100
+      - 2100:2100
     #volumes:
     #  - ./config.ini:/diiis/config.ini
     networks:
