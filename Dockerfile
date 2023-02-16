@@ -1,20 +1,19 @@
-#FROM alpine:latest
-FROM mcr.microsoft.com/dotnet/sdk:7.0
+FROM alpine:latest
 
 #set up the build env
-#RUN apk add --update-cache bash icu-data-full icu-libs krb5-libs libgcc libintl libssl1.1 libstdc++ zlib
-#RUN apk add libgdiplus --repository https://dl-3.alpinelinux.org/alpine/edge/testing/
+RUN apk add --update-cache bash icu-data-full icu-libs krb5-libs libgcc libintl libssl1.1 libstdc++ zlib
+RUN apk add libgdiplus --repository https://dl-3.alpinelinux.org/alpine/edge/testing/
 RUN apk add curl git
 
 ENV DOTNET_NOLOGO=1
 ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
-#ENV DOTNET_ROOT=/dnet
+ENV DOTNET_ROOT=/dnet
 
 #install .NET
-#WORKDIR /dnet
-#RUN ["/usr/bin/curl", "-L", "-s", "-o", "/dnet/install", "https://dot.net/v1/dotnet-install.sh" ]
-#RUN ["/bin/chmod", "+x", "/dnet/install" ]
-#RUN ["/dnet/install", "-c", "5.0", "--install-dir", "/dnet" ]
+WORKDIR /dnet
+RUN ["/usr/bin/curl", "-L", "-s", "-o", "/dnet/install", "https://dot.net/v1/dotnet-install.sh" ]
+RUN ["/bin/chmod", "+x", "/dnet/install" ]
+RUN ["/dnet/install", "-c", "5.0", "--install-dir", "/dnet" ]
 
 #get the source
 WORKDIR /diiistmp
